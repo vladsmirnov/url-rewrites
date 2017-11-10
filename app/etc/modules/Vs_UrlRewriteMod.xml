@@ -1,0 +1,8 @@
+<config>
+  <modules>
+    <Vs_UrlRewriteMod>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Vs_UrlRewriteMod>
+  </modules>
+</config>

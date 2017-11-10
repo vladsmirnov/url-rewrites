@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Vs_UrlRewriteMod>
+            <version>0.1.0</version>
+        </Vs_UrlRewriteMod>
+    </modules>
+    <global>
+        <models>
+            <catalog>
+                <rewrite>
+                    <url>Vs_UrlRewriteMod_Model_Url</url>
+                </rewrite>
+            </catalog>
+        </models>
+        <resources>
+            <urlrewritemod_setup>
+                <setup>
+                    <module>Vs_UrlRewriteMod</module>
+                </setup>
+            </urlrewritemod_setup>
+        </resources>
+    </global>
+</config>
