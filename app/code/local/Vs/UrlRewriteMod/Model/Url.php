@@ -9,85 +9,80 @@
 class Vs_UrlRewriteMod_Model_Url extends Mage_Catalog_Model_Url
 {
     /**
-     * Get unique product request path
+     * Get requestPath that was not used yet.
      *
-     * @param   Varien_Object $product
-     * @param   Varien_Object $category
-     * @return  string
+     * Will try to get unique path by adding -1 -2 etc. between url_key and optional url_suffix
+     *
+     * Rewrite of Core Magento method to prevent duplication of product url rewrite records
+     *
+     * @param int $storeId
+     * @param string $requestPath
+     * @param string $idPath
+     * @return string
      */
-    public function getProductRequestPath($product, $category)
+    public function getUnusedPath($storeId, $requestPath, $idPath)
     {
-        if ($product->getUrlKey() == '') {
-            $urlKey = $this->getProductModel()->formatUrlKey($product->getName());
+        if (strpos($idPath, 'product') !== false) {
+            $suffix = $this->getProductUrlSuffix($storeId);
         } else {
-            $urlKey = $this->getProductModel()->formatUrlKey($product->getUrlKey());
+            $suffix = $this->getCategoryUrlSuffix($storeId);
         }
-        $storeId = $category->getStoreId();
-        $suffix  = $this->getProductUrlSuffix($storeId);
-        $idPath  = $this->generatePath('id', $product, $category);
-        /**
-         * Prepare product base request path
-         */
-        if ($category->getLevel() > 1) {
-            // To ensure, that category has path either from attribute or generated now
-            $this->_addCategoryUrlPath($category);
-            $categoryUrl = Mage::helper('catalog/category')->getCategoryUrlPath($category->getUrlPath(),
-                false, $storeId);
-            $requestPath = $categoryUrl . '/' . $urlKey;
-        } else {
-            $requestPath = $urlKey;
+        if (empty($requestPath)) {
+            $requestPath = '-';
+        } elseif ($requestPath == $suffix) {
+            $requestPath = '-' . $suffix;
         }
 
+        /**
+         * Validate maximum length of request path
+         */
         if (strlen($requestPath) > self::MAX_REQUEST_PATH_LENGTH + self::ALLOWED_REQUEST_PATH_OVERFLOW) {
             $requestPath = substr($requestPath, 0, self::MAX_REQUEST_PATH_LENGTH);
         }
 
-        $this->_rewrite = null;
-        /**
-         * Check $requestPath should be unique
-         */
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
-            $existingRequestPath = $this->_rewrites[$idPath]->getRequestPath();
-
-            if ($existingRequestPath == $requestPath . $suffix) {
-                return $existingRequestPath;
-            }
-
-            $existingRequestPath = preg_replace('/' . preg_quote($suffix, '/') . '$/', '', $existingRequestPath);
-            /**
-             * Check if existing request past can be used
-             */
-            if ($product->getUrlKey() != '' && !empty($requestPath)
-                && strpos($existingRequestPath, $requestPath) === 0
-            ) {
-                $existingRequestPath = preg_replace(
-                    '/^' . preg_quote($requestPath, '/') . '/', '', $existingRequestPath
-                );
-                if (preg_match('#^-([0-9]+)$#i', $existingRequestPath)) {
-                    return $this->_rewrites[$idPath]->getRequestPath();
+            if ($this->_rewrites[$idPath]->getRequestPath() == $requestPath) {
+                return $requestPath;
+            } else {
+                // checking if we really need to create a new url rewrite
+                $urlKey = substr($requestPath, 0, -(strlen($suffix)));
+                $regularExpression = '/^('.preg_quote($urlKey).')(-([0-9]+))('.preg_quote($suffix).')$/i';
+                if (preg_match($regularExpression, $this->_rewrite->getRequestPath(), $match)) {
+                    return $this->_rewrite->getRequestPath();
                 }
             }
+        }
+        else {
+            $this->_rewrite = null;
+        }
 
-            $fullPath = $requestPath.$suffix;
-            if ($this->_deleteOldTargetPath($fullPath, $idPath, $storeId)) {
-                return $fullPath;
+        $rewrite = $this->getResource()->getRewriteByRequestPath($requestPath, $storeId);
+        if ($rewrite && $rewrite->getId()) {
+            if ($rewrite->getIdPath() == $idPath) {
+                $this->_rewrite = $rewrite;
+                return $requestPath;
             }
-        }
-        /**
-         * Check 2 variants: $requestPath and $requestPath . '-' . $productId
-         */
-        $validatedPath = $this->getResource()->checkRequestPaths(
-            array($requestPath.$suffix, $requestPath.'-'.$product->getId().$suffix),
-            $storeId
-        );
+            // match request_url abcdef1234(-12)(.html) pattern
+            $match = array();
+            $regularExpression = '#^([0-9a-z/-]+?)(-([0-9]+))?('.preg_quote($suffix).')?$#i';
+            if (!preg_match($regularExpression, $requestPath, $match)) {
+                return $this->getUnusedPath($storeId, '-', $idPath);
+            }
+            $match[1] = $match[1] . '-';
+            $match[4] = isset($match[4]) ? $match[4] : '';
 
-        if ($validatedPath) {
-            return $validatedPath;
+            $lastRequestPath = $this->getResource()
+                ->getLastUsedRewriteRequestIncrement($match[1], $match[4], $storeId);
+            if ($lastRequestPath) {
+                $match[3] = $lastRequestPath;
+            }
+            return $match[1]
+                . (isset($match[3]) ? ($match[3]+1) : '1')
+                . $match[4];
         }
-        /**
-         * Use unique path generator
-         */
-        return $this->getUnusedPath($storeId, $requestPath.$suffix, $idPath);
+        else {
+            return $requestPath;
+        }
     }
 }
