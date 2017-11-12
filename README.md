@@ -51,14 +51,15 @@ PHPUnit 6.4.0 by Sebastian Bergmann and contributors.
 [phpunit.de](https://phpunit.de/getting-started.html) - Getting Started with PHPUnit
 
 
+**How to run:**
 
-Navigate to the test's directory via command:
+* Navigate to the test's directory via command:
 
 ```
 cd dev/tests/integration 
 ```
 
-And run:
+* And run:
 ```
 phpunit
 ```
