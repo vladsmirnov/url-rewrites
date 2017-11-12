@@ -11,10 +11,10 @@ Installation
 ==============
 To apply this fix just clone this repository to Magento root directory
 
-Cleaning 'core_url_rewrites' table (Shell script usage)
+Removing duplicates (Shell script usage)
 ==============
 
-To removing all the extra entities run this command:
+To removing all the extra entities from 'core_url_rewrites' table run this command:
 ```
 php shell/rewrites.php cleanAll
 ```
