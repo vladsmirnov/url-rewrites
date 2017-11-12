@@ -1,24 +1,18 @@
 # Magento 1.9 CE Url Rewrite Fix
 
-The problem
-==============
-Magento 1.9 CE has an url rewrite issue. After each starting reindex of 'Catalog URL Rewrites',
-for products which has identical url_key Magento creates an extra entities  in 'core_url_rewrite' 
-table. This Magento module developed to prevent creating duplicates in 'core_url_rewrites' table.
-Also here you can find the Shell script, which can be used for cleaning rewrites table.
+## The issue
+Magento 1.9 CE has an url rewrite issue. Magento create the extra entities (duplicates) in 'core_url_rewrite' tables on each reindexing of 'Catalog URL Rewrites'. This Magento module targets this issue and prevents creating duplicates in 'core_url_rewrites' table.
+However, if you have the running Magento installation, you probably have the duplicates in the database. This repository contains a dedicated Shell script that allows you to remove the duplicates from the database.
 
-Installation
-==============
+## Installation
 To apply this fix just clone this repository to Magento root directory
 
-Removing duplicates (Shell script usage)
-==============
-
+## Removing duplicates (Shell script usage)
 To removing all the extra entities from 'core_url_rewrites' table run this command:
 ```
 php shell/rewrites.php cleanAll
 ```
-If you don't want to remove all entities (by SEO reason) you should use an additional argument **--except 'number'**.
+If you don't want to remove all entities (this makes sense for SEO reasons, since the existing URLs might be cached by search engines) you should use an additional argument **--except 'number'**.
 With this additional argument script will delete all records except last **'number'** rows.
 
 For example, in this case script will delete all records, except last 5:
@@ -32,8 +26,11 @@ To get information about script commands run it with 'help' argument:
 php shell/rewrites.php help
 ```
 
-PHPUnit Tests
-==============
+## Contribution
+You can contribute by creating the issue or the pull request. 
+
+### Running the PHPUnit Tests
+
 To run the tests your environment should has the PHPUnit testing framework.
 
 **How to install PHPUnit testing framework:**
@@ -72,8 +69,7 @@ will be failed.
 
 After tests end temp fixture products will be deleted from database.
 
-License
-==============
+# License
 This project is released under the MIT license.
 
 ```
