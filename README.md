@@ -1,4 +1,4 @@
-#Magento 1.9 CE Url Rewrite Fix
+# Magento 1.9 CE Url Rewrite Fix
 
 The problem
 ==============
