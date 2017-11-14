@@ -1,0 +1,26 @@
+{
+    "name": "vs/url-rewrite-mod",
+    "type": "magento-module",
+    "license":"MIT",
+    "description":"This Magento module prevents creating duplicates in 'core_url_rewrites' table. Also included the dedicated Shell script that allows you to remove the duplicates from the database.",
+    "homepage": "https://github.com/vladsmirnov/url-rewrites",
+    "require":{
+        "magento-hackathon/magento-composer-installer":"*"
+    },
+    "authors":[
+        {
+            "name":"Vladyslav Smirnov",
+            "email":"vladsm088@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.firegento.com"
+        }
+    ],
+    "extra":{
+        "magento-deploystrategy": "copy",
+        "magento-deploystrategy-dev": "symlink"
+    }
+}
