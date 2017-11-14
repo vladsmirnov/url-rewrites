@@ -1,0 +1,16 @@
+# Vs_UrlRewriteMod module
+
+app/code/local/Vs/UrlRewriteMod/        app/code/local/Vs/UrlRewriteMod/
+app/etc/modules/Vs_UrlRewriteMod.xml    app/etc/modules/Vs_UrlRewriteMod.xml
+
+# Shell script
+shell/rewrites.php                      shell/rewrites.php
+
+# Tests
+dev/tests/integration/autoload.php      dev/tests/integration/autoload.php
+dev/tests/integration/phpunit.xml       dev/tests/integration/phpunit.xml
+dev/tests/integration/testsuite/Vs/UrlRewriteMod/DataProviders/ProductProvider.php  dev/tests/integration/testsuite/Vs/UrlRewriteMod/DataProviders/ProductProvider.php
+dev/tests/integration/testsuite/Vs/UrlRewriteMod/Models/UrlTest.php  dev/tests/integration/testsuite/Vs/UrlRewriteMod/Models/UrlTest.php
+
+# Clear the cache
+@shell   rm -rf $PROJECT/var/cache/* && echo "Cache cleared"
