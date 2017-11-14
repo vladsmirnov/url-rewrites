@@ -5,8 +5,33 @@ Magento 1.9 CE has an url rewrite issue. Magento create the extra entities (dupl
 However, if you have the running Magento installation, you probably have the duplicates in the database. This repository contains a dedicated Shell script that allows you to remove the duplicates from the database.
 
 ## Installation
-To apply this fix just clone this repository to Magento root directory
+#### Via git
+- To apply this fix just clone this repository to Magento root directory
 
+#### Via modman
+- Install [modman](https://github.com/colinmollenhour/modman)
+- Use the command from your Magento installation folder: `modman clone https://github.com/vladsmirnov/url-rewrites.git`
+
+#### Via Composer
+
+**Note:** Pull request to add the module to the [packages.firegento.com](http://packages.firegento.com/) is pending and it’s temporary not possible to install via Composer. See [issue #4](https://github.com/vladsmirnov/url-rewrites/issues/4) for the details”.
+- Install [composer](https://getcomposer.org/download/)
+- Create a composer.json into your project like the following sample:
+
+```json
+{
+    "require":{
+            "vs/url-rewrite-mod":"*"
+        },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.firegento.com"
+        }
+    ]
+}
+```
+- From your composer.json folder: `php composer.phar install` or `composer install`
 ## Removing duplicates (Shell script usage)
 To removing all the extra entities from 'core_url_rewrites' table run this command:
 ```
@@ -69,22 +94,8 @@ will be failed.
 
 After tests end temp fixture products will be deleted from database.
 
-# License
-This project is released under the MIT license.
+## Authors
+This module is developed by [Vladyslav Smirnov](https://github.com/vladsmirnov) and [Anton Boritskiy](https://github.com/aboritskiy).
 
-```
-Copyright 2017 Vladyslav Smirnov
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated  documentation 
-files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, 
-merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is 
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-DEALINGS IN THE SOFTWARE.
-```
+## License
+This project is licensed under the MIT License - see the LICENSE file for details
