@@ -60,12 +60,12 @@ class Vs_UrlRewriteMod_Model_Url extends Mage_Catalog_Model_Url
 
         if (isset($this->_rewrites[$idPath])) {
             $this->_rewrite = $this->_rewrites[$idPath];
-            if ($this->_rewrites[$idPath]->getRequestPath() == $requestPath) {
+            if ($this->_rewrite->getRequestPath() == $requestPath) {
                 return $requestPath;
             } else {
                 // checking if we really need to create a new url rewrite
                 $urlKey = substr($requestPath, 0, -(strlen($suffix)));
-                $regularExpression = '/^('.preg_quote($urlKey).')(-([0-9]+))('.preg_quote($suffix).')$/i';
+                $regularExpression = '/^('.preg_quote($urlKey, '/').')(-([0-9]+))('.preg_quote($suffix).')$/i';
                 if (preg_match($regularExpression, $this->_rewrite->getRequestPath(), $match)) {
                     return $this->_rewrite->getRequestPath();
                 }
