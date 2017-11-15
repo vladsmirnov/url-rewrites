@@ -21,12 +21,12 @@ However, if you have the running Magento installation, you probably have the dup
 ```json
 {
     "require":{
-            "vs/url-rewrite-mod":"*"
+            "vladsmirnov/url-rewrites":"*"
         },
     "repositories": [
         {
             "type": "composer",
-            "url": "http://packages.firegento.com"
+            "url": "https://packages.firegento.com"
         }
     ]
 }
