@@ -1,5 +1,5 @@
 {
-    "name": "vs/url-rewrite-mod",
+    "name": "vladsmirnov/url-rewrites",
     "type": "magento-module",
     "license":"MIT",
     "description":"This Magento module prevents creating duplicates in 'core_url_rewrites' table. Also included the dedicated Shell script that allows you to remove the duplicates from the database.",
