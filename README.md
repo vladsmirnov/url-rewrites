@@ -14,7 +14,6 @@ However, if you have the running Magento installation, you probably have the dup
 
 #### Via Composer
 
-**Note:** Pull request to add the module to the [packages.firegento.com](http://packages.firegento.com/) is pending and it’s temporary not possible to install via Composer. See [issue #4](https://github.com/vladsmirnov/url-rewrites/issues/4) for the details”.
 - Install [composer](https://getcomposer.org/download/)
 - Create a composer.json into your project like the following sample:
 
