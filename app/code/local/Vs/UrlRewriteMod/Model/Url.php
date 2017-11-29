@@ -83,7 +83,7 @@ class Vs_UrlRewriteMod_Model_Url extends Mage_Catalog_Model_Url
             }
             // match request_url abcdef1234(-12)(.html) pattern
             $match = array();
-            $regularExpression = '#^([0-9a-z/-]+?)(-([0-9]+))?('.preg_quote($suffix).')?$#i';
+            $regularExpression = '#^([0-9a-z/-]+)(-([0-9]+))?('.preg_quote($suffix).')?$#i';
             if (!preg_match($regularExpression, $requestPath, $match)) {
                 return $this->getUnusedPath($storeId, '-', $idPath);
             }
