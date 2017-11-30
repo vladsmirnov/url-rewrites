@@ -3,7 +3,7 @@
 <config>
     <modules>
         <Vs_UrlRewriteMod>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Vs_UrlRewriteMod>
     </modules>
     <global>
